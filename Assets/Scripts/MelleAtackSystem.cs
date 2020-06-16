@@ -27,16 +27,14 @@ public class MelleAtackSystem : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.75f);
         atackAnimation = true;        
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.25f);
         atackAnimation = false;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Inimigo") && atackAnimation == true && triggerLoop == false)
-        {            
-            Debug.Log("Eita porra");                     
-            //temporaryEnemy = other.gameObject
+        {   
             other.gameObject.GetComponent<NavSystem>().GetAttacked();
             if (!atacksound.isPlaying)
             {

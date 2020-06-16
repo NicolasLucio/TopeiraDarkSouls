@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movimento : MonoBehaviour
 {
@@ -8,20 +9,31 @@ public class Movimento : MonoBehaviour
     public Camera cam;
     public Rigidbody rigid;
     public Animator anin;
-    public bool jump = false;
-    //public NavSystem navEnemyScript;
+    public bool jump = false;    
     
     public MelleAtackSystem swordScript;
     public GameObject spellObj;
     public GameObject spellOrigin;
 
     private bool canCastAgain = true;
+    private bool canJump;
 
     public AudioSource stepSound;
+
+    public PrimarySystem primaryScript;
     
     void Start()
     {
         cam = Camera.main;
+        Scene tempScene = SceneManager.GetActiveScene();
+        if (tempScene.name != "TopeiraScene")
+        {
+            canJump = false;
+        }
+        else
+        {
+            canJump = true;
+        }
     }
 
     void Update()
@@ -44,7 +56,7 @@ public class Movimento : MonoBehaviour
             CastingSpell();
         }
 
-        if (jumping && !jump)
+        if (jumping && !jump && canJump == true)
         {
             jump = true;
             anin.SetBool("jump", true);
@@ -70,6 +82,14 @@ public class Movimento : MonoBehaviour
             anin.SetBool("run", false);
             transform.rotation.Normalize();            
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {            
+            if (primaryScript.guaravitas > 0)
+            {
+                primaryScript.CalculateLife(50, false, true);
+            }
+        }
     }
 
     private void Rotation()
@@ -90,9 +110,10 @@ public class Movimento : MonoBehaviour
 
     void CastingSpell()
     {
-        if (canCastAgain == true)
+        if (canCastAgain == true && primaryScript.characterMana > 0)
         {
             anin.SetTrigger("spellcasting");
+            primaryScript.CalculateMana(false);
             StartCoroutine(CastingTimer());
         }        
     }
@@ -100,6 +121,10 @@ public class Movimento : MonoBehaviour
     void OnCollisionEnter (Collision collision)
     {
         StartCoroutine("Jumptimer");        
+        if (collision.gameObject.CompareTag("Lava"))
+        {
+            primaryScript.CalculateLife(100.0f, true, false);
+        }
     }
 
     IEnumerator Jumptimer()
