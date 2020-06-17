@@ -20,6 +20,7 @@ public class NavSystem : MonoBehaviour
         isAlive = true;        
         primarySystemObj = GameObject.FindGameObjectWithTag("System");
         primaryScript = primarySystemObj.GetComponent<PrimarySystem>();
+        StartCoroutine(ManualCheck());
     }
 
     // Update is called once per frame
@@ -50,14 +51,7 @@ public class NavSystem : MonoBehaviour
         {
             if (isAlive == true)
             {
-                if (Vector3.Distance(objective.position, this.transform.position) < 25.0f)
-                {
-                    navAgent.SetDestination(objective.position);
-                }
-                else
-                {
-                    navAgent.ResetPath();
-                }
+                MakeManualCheck();
             }            
         }
     }
@@ -89,6 +83,15 @@ public class NavSystem : MonoBehaviour
         isAlive = true;
     }
 
+    IEnumerator ManualCheck()
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(2.0f);
+            MakeManualCheck();
+        }
+    }
+
     public void GetAttacked()
     {
         Debug.Log("Foi Atacado");        
@@ -96,4 +99,16 @@ public class NavSystem : MonoBehaviour
         StartCoroutine(Idletimer());
         StartCoroutine(Deathtimer());
     }
+
+    void MakeManualCheck()
+    {
+        if (Vector3.Distance(objective.position, this.transform.position) < 25.0f)
+        {
+            navAgent.SetDestination(objective.position);
+        }
+        else
+        {
+            navAgent.ResetPath();
+        }
+    }   
 }

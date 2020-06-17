@@ -23,6 +23,13 @@ public class MagicSystem : MonoBehaviour
             collision.gameObject.GetComponent<NavSystem>().GetAttacked();        
             this.GetComponent<ParticleSystem>().Stop();
         }
+        else if (collision.gameObject.CompareTag("MagicDoor"))
+        {
+            //collision.gameObject.GetComponent<DoorScript>().
+            //this.gameObject.GetComponent<Rigidbody>().AddForce(-this.transform.forward * 100.0f, ForceMode.Impulse);
+            //collision.gameObject.GetComponent<Rigidbody>().AddForce(-this.transform.forward * 100.0f, ForceMode.Impulse);
+            Destroy(collision.gameObject);
+        }
         else
         {
             Debug.Log("Errou");            

@@ -9,6 +9,7 @@ TagManager:
   - System
   - Inimigo
   - Lava
+  - MagicDoor
   layers:
   - Default
   - TransparentFX
