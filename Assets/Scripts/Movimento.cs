@@ -90,6 +90,11 @@ public class Movimento : MonoBehaviour
                 primaryScript.CalculateLife(50, false, true);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void Rotation()
@@ -118,6 +123,16 @@ public class Movimento : MonoBehaviour
         }        
     }
 
+    public void HitedAnimation()
+    {
+        Debug.Log("Empurado");        
+        rigid.AddForce(Vector3.up * 2.5f, ForceMode.Impulse);
+        rigid.AddForce(-this.transform.forward * 100.0f, ForceMode.Impulse);
+        StartCoroutine(HitTimer());
+    }
+
+    //=========================================
+
     void OnCollisionEnter (Collision collision)
     {
         StartCoroutine("Jumptimer");        
@@ -126,6 +141,8 @@ public class Movimento : MonoBehaviour
             primaryScript.CalculateLife(100.0f, true, false);
         }
     }
+
+    //========================================
 
     IEnumerator Jumptimer()
     {
@@ -143,6 +160,12 @@ public class Movimento : MonoBehaviour
         tempSpell.GetComponent<Rigidbody>().AddForce(this.transform.forward * 2000.0f, ForceMode.Force);
         yield return new WaitForSecondsRealtime(2.5f);
         canCastAgain = true;
+    }
+
+    IEnumerator HitTimer()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+        //rigid.isKinematic = false;
     }
 
     public void PlayStep()

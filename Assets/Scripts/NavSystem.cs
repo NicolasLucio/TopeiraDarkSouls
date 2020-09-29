@@ -22,8 +22,7 @@ public class NavSystem : MonoBehaviour
         primaryScript = primarySystemObj.GetComponent<PrimarySystem>();
         StartCoroutine(ManualCheck());
     }
-
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         if (!navAgent.isOnNavMesh)
@@ -40,7 +39,7 @@ public class NavSystem : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Game Over");            
+            Debug.Log("Enemy Hit");            
             primaryScript.CalculateLife(10, true, false);
         }
     }

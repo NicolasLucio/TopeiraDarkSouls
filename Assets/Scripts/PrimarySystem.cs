@@ -13,6 +13,9 @@ public class PrimarySystem : MonoBehaviour
     public GameObject gameOverCanvas;
     public AudioSource gameMusic;
 
+    //[HideInInspector]
+    //public Movimento characterScript;
+
     public Slider lifeSlider;
     public float characterLife;
     private float initialLife;
@@ -36,7 +39,7 @@ public class PrimarySystem : MonoBehaviour
         initialLife = characterLife;
         manaSlider.value = 10.0f;
 
-        guaravitaText.text = guaravitas.ToString();
+        guaravitaText.text = guaravitas.ToString();        
 
         StartCoroutine(ManaRegen());
     }
@@ -52,6 +55,7 @@ public class PrimarySystem : MonoBehaviour
         {
             characterLife = characterLife - howMuch;
             lifeSlider.value = characterLife;
+            FindObjectOfType<Movimento>().HitedAnimation();
             if (characterLife <= 0.0f)
             {
                 GameOver();
@@ -99,8 +103,7 @@ public class PrimarySystem : MonoBehaviour
         StartCoroutine(EffectTimer(1.5f, 2));
         guaravitas = 3;
         guaravitaText.text = guaravitas.ToString();
-
-    }
+    }    
 
     IEnumerator GOTimer()
     {
