@@ -1,5 +1,7 @@
 # TopeiraDarkSouls
 
+Jogo feito em 4 horas, numa call do Discord com ideias aleatórias.
+
 ## Download
 
 Link para o download da build [Aqui](https://github.com/NicolasLucio/TopeiraDarkSouls/releases/download/0.2/UnityBuild.WIN.7z)
